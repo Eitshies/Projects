@@ -1,0 +1,5 @@
+Assignment name: custom_allocator
+Expected files: custom_allocator.c
+Allowed functions: printf
+--------------------------------------------------------------------------------
+Build a custom memory allocator in C that handles requests for dynamic memory allocation and deallocation.

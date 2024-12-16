@@ -1,0 +1,5 @@
+Assignment name: print_array
+Expected files: print_array.c
+Allowed functions: printf
+--------------------------------------------------------------------------------
+Write a function to print the elements of an array using a pointer.

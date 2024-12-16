@@ -1,0 +1,5 @@
+Assignment name: memory_manager
+Expected files: memory_manager.c
+Allowed functions: malloc, calloc, realloc, free, printf
+--------------------------------------------------------------------------------
+Create a memory management module in C that includes functions for malloc, calloc, realloc, and free, with error checking.

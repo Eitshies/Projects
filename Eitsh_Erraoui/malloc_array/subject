@@ -1,0 +1,5 @@
+Assignment name: malloc_array
+Expected files: malloc_array.c
+Allowed functions: malloc, printf
+--------------------------------------------------------------------------------
+Implement a program that uses malloc to dynamically allocate memory for an array and initializes it.

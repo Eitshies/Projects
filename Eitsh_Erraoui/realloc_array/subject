@@ -1,0 +1,5 @@
+Assignment name: realloc_array
+Expected files: realloc_array.c
+Allowed functions: realloc, printf
+--------------------------------------------------------------------------------
+Write a function that uses realloc to resize an array and initializes the new elements.

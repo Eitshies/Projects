@@ -1,0 +1,5 @@
+Assignment name: swap_pointers
+Expected files: swap_pointers.c
+Allowed functions: printf
+--------------------------------------------------------------------------------
+Write a function that takes two pointers and swaps their values without using a temporary variable.
