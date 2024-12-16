@@ -6,7 +6,7 @@
 /*   By: eerraoui <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 15:23:07 by eerraoui          #+#    #+#             */
-/*   Updated: 2024/12/16 15:47:43 by eerraoui         ###   ########.fr       */
+/*   Updated: 2024/12/16 16:07:29 by eerraoui         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,8 @@ int main(void)
 	int target = 7;
 	int returnSize;
 	int *arr = twoSum(nums, numsSize, target, &returnSize);
-	printf("[%i,%i]", arr[0], arr[1]);
+	printf("[%i,%i]\n", arr[0], arr[1]);
+	free(arr);
 	return(0);
 }
 
@@ -42,4 +43,5 @@ int *twoSum(int *nums, int numsSize, int target, int *returnSize)
 			}
 		}
 	}
+	return NULL;
 }
