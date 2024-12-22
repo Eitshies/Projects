@@ -6,135 +6,101 @@
 /*   By: eerraoui <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 08:34:34 by eerraoui          #+#    #+#             */
-/*   Updated: 2024/12/16 13:27:28 by eerraoui         ###   ########.fr       */
+/*   Updated: 2024/12/18 20:43:12 by eerraoui         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdio.h>
-void maze_printer(int columns, int maze[][columns]);
 
-int main(void)
-{
-	int columns = 5, rows = 3, sr = 2, sc = 0, er = 0, ec = 4;
-	char move;
-	
-	/**/
-	int maze[3][5] = {
-		{0,1,0,0,0},
-		{0,1,0,1,0},
-		{5,0,0,1,3}
-	};
-	/**/
+void init_allocator();
+void *custom_malloc(size_t size);
+void custom_free(void *ptr);
 
-//	Print with values:
-	maze_printer(columns, maze);
-/* All shit */
-	while(maze[sr][sc] != 3 )
-	{
-		printf("The valid moves are: ");
-		if(( sr-1 >= 0 && sr-1 < rows ) && (sc >= 0 && sc < columns) && (maze[sr-1][sc] != 1))
-		{
-			printf("Up, ");
-		}
-		if(( sr+1 >= 0 && sr+1 < rows ) && (sc >= 0 && sc < columns) && (maze[sr+1][sc] != 1))
-		{
-			printf("Down, ");
-		}
-		if(( sr >= 0 && sr < rows ) && ( sc-1 >= 0 && sc-1 < columns) && (maze[sr][sc-1] != 1))
-		{
-			printf("Left, ");
-		}
-		if(( sr >= 0 && sr < rows ) && ( sc+1 >= 0 && sc+1 < columns) && (maze[sr][sc+1] != 1))
-		{
-			printf("Right, ");
-		}
-		if(( sr-1 >= 0 && sr-1 < rows ) && (sc >= 0 && sc < columns) && (maze[sr-1][sc] != 1))
-		{
-			sr--;
-		}
-		if(( sr+1 >= 0 && sr+1 < rows ) && (sc >= 0 && sc < columns) && (maze[sr+1][sc] != 1))
-		{
-			sr++;
-		}
-		if(( sr >= 0 && sr < rows ) && ( sc-1 >= 0 && sc-1 < columns) && (maze[sr][sc-1] != 1))
-		{
-			sc--;
-		}
-		if(( sr >= 0 && sr < rows ) && ( sc+1 >= 0 && sc+1 < columns) && (maze[sr][sc+1] != 1))
-		{
-			sc++;
-		}
+#define MEMORY_POOL_SIZE 1024  // Size of the memory pool
+#define BLOCK_SIZE 32           // Minimum block size for allocation
 
-		printf("\b\b.\n\n");
+int main() {
+    // Initialize the allocator
+    init_allocator();
 
-		printf("W to move up.\nS to move down.\nA to move left.\nD to move right.\nEnter where to move: ");
-		scanf(" %c", &move);
-		do{
-			if (move == 'W' || move == 'w')
-			{
-				maze[sr][sc] = 8;
-				maze[sr-1][sc] = 6;
-				maze_printer(columns, maze);
-			}
-			else if (move == 'S' || move == 's')
-			{
-				maze[sr][sc] = 8;
-				maze[sr+1][sc] = 6;
-				maze_printer(columns, maze);
-			}
-			else if (move == 'A' || move == 'a')
-			{
-				maze[sr][sc] = 8;
-				maze[sr][sc-1] = 6;
-				maze_printer(columns, maze);
-			}
-			else if (move == 'D' || move == 'd')
-				{
-				maze[sr][sc] = 8;
-				maze[sr][sc+1] = 6;
-				maze_printer(columns, maze);
-			}
-			else
-			{
-				printf("Invalid move, enter where to move: ");
-				scanf(" %c", &move);
-			}
-		} while(move != 'W' && move != 'w' && move != 'S' && move != 's' && move != 'A' && move != 'a' && move != 'D' && move != 'd' );
-	}
-	return(0);
+    // Example usage of custom_malloc and custom_free
+    void *ptr1 = custom_malloc(100);
+    printf("Allocated 100 bytes at %p\n", ptr1);
+	custom_free(ptr1);
+
+    void *ptr2 = custom_malloc(200);
+    printf("Allocated 200 bytes at %p\n", ptr2);
+    custom_free(ptr1);
+
+    void *ptr3 = custom_malloc(50);
+    printf("Allocated 50 bytes at %p\n", ptr3);
+	custom_free(ptr3);
+
+    return 0;
 }
 
-void maze_printer(int columns, int maze[][columns])
-{
-	printf("\n\nHere is the maze: \n\n");	
-	for(int i = 0; i < 3; i++)
-	{
-		for(int j = 0; j < 5; j++)
-		{
-			if(maze[i][j] == 5)
-			{
-				printf("S ");
-				continue;
-			}
-			else if(maze[i][j] == 3)
-			{
-				printf("E ");
-				continue;
-			}
-			else if(maze[i][j] == 8)
-			{
-				printf("* ");
-				continue;
-			}
-			else if(maze[i][j] == 6)
-			{
-				printf("C ");
-				continue;
-			}
-			printf("%i ", maze[i][j]);
-		}
-		printf("\n");
-	}
-	printf("\n\n");
+// Memory pool
+static char memoryPool[MEMORY_POOL_SIZE];
+
+// Block structure
+typedef struct Block {
+    size_t size;        // Size of the block
+    struct Block* next; // Pointer to the next block
+    int free;          // Flag to indicate if the block is free
+} Block;
+
+static Block* freeList = NULL; // Head of the free list
+
+// Function to initialize the memory allocator
+void init_allocator() {
+    freeList = (Block*)memoryPool; // Set the free list to the start of the memory pool
+    freeList->size = MEMORY_POOL_SIZE - sizeof(Block);
+    freeList->next = NULL;
+    freeList->free = 1; // Mark the block as free
+}
+
+// Function to allocate memory
+void* custom_malloc(size_t size) {
+    if (size <= 0) {
+        return NULL;
+    }
+
+    // Align size to the nearest multiple of BLOCK_SIZE
+    size = (size + BLOCK_SIZE - 1) & ~(BLOCK_SIZE - 1);
+
+    Block* current = freeList;
+
+    // Traverse the free list to find a suitable block
+    while (current) {
+        if (current->free && current->size >= size) {
+            // If the block is larger than needed, split it
+            if (current->size > size + sizeof(Block)) {
+                Block* newBlock = (Block*)((char*)current + sizeof(Block) + size);
+                newBlock->size = current->size - size - sizeof(Block);
+                newBlock->next = current->next;
+                newBlock->free = 1;
+
+                current->size = size;
+                current->next = newBlock;
+            }
+            current->free = 0; // Mark the block as allocated
+            return (char*)current + sizeof(Block); // Return pointer to the memory after the block header
+        }
+        current = current->next;
+    }
+
+    // No suitable block found
+    return NULL;
+}
+
+// Function to free allocated memory
+void custom_free(void* ptr) {
+    if (!ptr) {
+        return;
+    }
+
+    // Get the block header
+    Block* block = (Block*)((char*)ptr - sizeof(Block));
+    block->free = 1; // Mark the block as free
 }
 

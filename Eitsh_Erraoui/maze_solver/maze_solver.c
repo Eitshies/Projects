@@ -6,93 +6,90 @@
 /*   By: eerraoui <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 20:01:00 by eerraoui          #+#    #+#             */
-/*   Updated: 2024/12/16 11:11:19 by eerraoui         ###   ########.fr       */
+/*   Updated: 2024/12/17 13:37:04 by eerraoui         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdio.h>
-void maze_printer(int columns, int maze[][columns]);
-void Xmaze_printer(int rows, int columns);
+#include <string.h>
+
+void printMaze(int rows, int columns, int maze[][columns]);
+int isValidMove(int rows, int columns, int maze[][columns], int sr, int sc);
+int solveMaze(int rows, int columns, int maze[][columns], int sr, int sc, int er, int ec);
 
 int main(void)
 {
-	int columns = 5, rows = 3, sr, sc, er, ec;
-//	int maze[rows][columns];
-	sr = 2;
-	sc = 0;
-	er = 0;
-	ec = 4;
+    int columns = 5, rows = 3, sr = 2, sc = 0, er = 2, ec = 4;
+    int maze[3][5] = {
+        {0, 1, 0, 0, 0},
+        {0, 1, 0, 1, 0},
+        {5, 0, 0, 1, 3}
+    };
 
-	/**/
-	int maze[3][5] = {
-		{0,1,0,0,0},
-		{0,1,0,1,0},
-		{5,0,0,1,3}
-	};
-	/**/
-
-//	Enter R & C
-//	printf("Enter the number of rows: ");
-//	scanf("%i", &rows);
-//	printf("Enter the number of columns: ");
-//	scanf("%i", &columns);
-
-//	Print without values:
-//	printf("Here is the Maze before entering data: \n\n");
-//	Xmaze_printer(rows, columns);
-//	printf("\n\n");
-
-//	Print with values:
-	printf("Here is the Maze after: \n");
-	maze_printer(columns, maze);
-	printf("\n\n");
-
-/*	Valid moves: */
-	printf("The valid moves are: ");
-	if(( sr-1 >= 0 && sr-1 < rows ) && (sc >= 0 && sc < columns)) 
-		printf("Up ");
-	if(( sr+1 >= 0 && sr+1 < rows ) && (sc >= 0 && sc < columns))
-		printf("Down ");
-	if(( sr >= 0 && sr < rows ) && ( sc-1 >= 0 && sc-1 < columns))
-		printf("Left ");
-	if(( sr >= 0 && sr < rows ) && ( sc+1 >= 0 && sc+1 < columns))
-		printf("Right ");
-	printf("\b.\n");
-	/**/
-	return(0);
+    if(solveMaze(rows, columns, maze, sr, sc, er, ec)) {
+        printf("Maze Solved!\n");
+    } else {
+        printf("No solution found.\n");
+    }
+    printMaze(rows, columns, maze);
+    return(0);
 }
 
-void maze_printer(int columns, int maze[][columns])
-{	
-	for(int i = 0; i < 3; i++)
-	{
-		for(int j = 0; j < 5; j++)
-		{
-			if(maze[i][j] == 5)
-			{
-				printf("S ");
-				continue;
-			}
-			if(maze[i][j] == 3)
-			{
-				printf("E ");
-				continue;
-			}
-			printf("%i ", maze[i][j]);
-		}
-		printf("\n");
-	}
-}
-
-void Xmaze_printer(int rows, int columns)
+void printMaze(int rows, int columns, int maze[][columns])
 {
-	for(int i = 0; i < rows; i++)
-	{
-		for(int j = 0; j < columns; j++)
-		{
-			printf("X ");
-		}
-		printf("\n");
-	}
+    printf("\nHere is the maze:\n\n");
+    for (int i = 0; i < rows; i++)
+    {
+        for (int j = 0; j < columns; j++)
+        {
+            if (maze[i][j] == 5)
+            {
+                printf("S ");
+                continue;
+            }
+            else if (maze[i][j] == 3)
+            {
+                printf("E ");
+                continue;
+            }
+            else if (maze[i][j] == 8)
+            {
+                printf("* ");
+                continue;
+            }
+            printf("%d ", maze[i][j]);
+        }
+        printf("\n");
+    }
+    printf("\n");
+}
+
+int isValidMove(int rows, int columns, int maze[][columns], int sr, int sc)
+{
+    return (sr >= 0 && sr < rows && sc >= 0 && sc < columns && maze[sr][sc] != 1 && maze[sr][sc] != 8);
+}
+
+int solveMaze(int rows, int columns, int maze[][columns], int sr, int sc, int er, int ec)
+{
+    if (sr == er && sc == ec)
+    {
+        maze[sr][sc] = 8; // Mark the end point
+        return 1;
+    }
+
+    if (isValidMove(rows, columns, maze, sr, sc))
+    {
+        maze[sr][sc] = 8; // Mark the current cell as part of the path
+
+        // Try all possible moves
+        if (solveMaze(rows, columns, maze, sr - 1, sc, er, ec)) return 1; // Up
+        if (solveMaze(rows, columns, maze, sr + 1, sc, er, ec)) return 1; // Down
+        if (solveMaze(rows, columns, maze, sr, sc - 1, er, ec)) return 1; // Left
+        if (solveMaze(rows, columns, maze, sr, sc + 1, er, ec)) return 1; // Right
+
+        // Backtrack: Unmark the current cell
+        maze[sr][sc] = 0;
+    }
+    return 0;
 }
 
