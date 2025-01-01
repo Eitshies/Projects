@@ -1,5 +1,0 @@
-Assignment name: maze_solver
-Expected files: maze_solver.c
-Allowed functions: printf
---------------------------------------------------------------------------------
-Write a program to solve a maze using pointer-based recursive backtracking.

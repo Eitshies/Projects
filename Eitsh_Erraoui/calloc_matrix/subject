@@ -1,5 +1,0 @@
-Assignment name: calloc_matrix
-Expected files: calloc_matrix.c
-Allowed functions: calloc, free, printf
---------------------------------------------------------------------------------
-Develop a program that uses calloc to allocate and initialize memory for a matrix, then deallocates it properly.

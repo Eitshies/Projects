@@ -1,5 +1,0 @@
-Assignment name: sparse_matrix
-Expected files: sparse_matrix.c
-Allowed functions: malloc, printf
---------------------------------------------------------------------------------
-Create a program to handle a sparse matrix using dynamic memory allocation and pointers, with functions for matrix operations.

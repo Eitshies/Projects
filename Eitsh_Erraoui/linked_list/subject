@@ -1,5 +1,0 @@
-Assignment name: linked_list
-Expected files: linked_list.c
-Allowed functions: malloc, printf
---------------------------------------------------------------------------------
-Implement a linked list data structure in C and use pointers for node traversal.

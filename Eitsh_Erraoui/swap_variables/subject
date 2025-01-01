@@ -1,5 +1,0 @@
-Assignment name: swap_variables
-Expected files: swap_variables.c
-Allowed functions: printf
---------------------------------------------------------------------------------
-Create a program to swap the values of two variables using pointers.

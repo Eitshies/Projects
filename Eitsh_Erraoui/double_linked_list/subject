@@ -1,5 +1,0 @@
-Assignment name: double_linked_list
-Expected files: double_linked_list.c
-Allowed functions: malloc, printf
---------------------------------------------------------------------------------
-Implement a double linked list and perform various operations like insertion, deletion, and traversal using pointers.

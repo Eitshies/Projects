@@ -1,5 +1,0 @@
-Assignment name: pointer_arithmetic
-Expected files: pointer_arithmetic.c
-Allowed functions: printf
---------------------------------------------------------------------------------
-Create a program that demonstrates pointer arithmetic to access and modify array elements.

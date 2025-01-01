@@ -5,43 +5,49 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: eerraoui <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/16 15:23:07 by eerraoui          #+#    #+#             */
-/*   Updated: 2024/12/16 16:07:29 by eerraoui         ###   ########.fr       */
+/*   Created: 2024/12/25 22:32:40 by eerraoui          #+#    #+#             */
+/*   Updated: 2024/12/25 22:59:36 by eerraoui         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdio.h>
 #include <stdlib.h>
 
-int *twoSum(int *nums, int numsSize, int target, int *returnSize);
+int* twoSum(int* nums, int numsSize, int target, int* returnSize);
 
 int main(void)
 {
-	int nums[] = {1,2,3,4,5};
-	int numsSize = sizeof(nums) / sizeof(nums[0]);
-	int target = 7;
-	int returnSize;
-	int *arr = twoSum(nums, numsSize, target, &returnSize);
-	printf("[%i,%i]\n", arr[0], arr[1]);
-	free(arr);
+	int nums[] = {10, 100, 20, 47};
+	int numsSize = sizeof(nums) / sizeof(nums[0]), target = 57, returnSize = 2;
+	int *ptr = twoSum(nums, numsSize, target, &returnSize);
+	if( returnSize == 2 && ptr != NULL)
+	{
+		printf("[%i,%i]\n", *ptr, *(ptr+1));
+		free(ptr);
+	}
+	else
+		printf("No match found!");
 	return(0);
 }
 
-int *twoSum(int *nums, int numsSize, int target, int *returnSize)
+int* twoSum(int* nums, int numsSize, int target, int* returnSize)
 {
-	for(int i = 0; i < numsSize; i++)
+	for (int i = 0; i < numsSize; i++)
 	{
-		for(int j = i + 1; j < numsSize; j++)
+		for (int j = i + 1; j < numsSize; j++)
 		{
-			if(nums[i] + nums[j] == target)
+			if (nums[i] + nums[j] == target)
 			{
 				*returnSize = 2;
-				int *p = (int *)malloc(*returnSize * sizeof(int));
-				p[0] = i;
-				p[1] = j;
-				return(p);
+				int *ptr = (int *)malloc(*returnSize * sizeof(int));
+				ptr[0] = i;
+				ptr[1] = j;
+				return ptr;
 			}
 		}
 	}
+
+	printf("Allocating memory failed!");
+	*returnSize = 0;
 	return NULL;
 }

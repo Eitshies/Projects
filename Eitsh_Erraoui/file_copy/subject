@@ -1,5 +1,0 @@
-Assignment name: file_copy
-Expected files: file_copy.c
-Allowed functions: fopen, fread, fwrite, fclose, printf
---------------------------------------------------------------------------------
-Write a program to copy a file’s contents to another file using pointers for reading and writing.

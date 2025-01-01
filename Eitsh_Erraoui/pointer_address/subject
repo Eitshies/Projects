@@ -1,5 +1,0 @@
-Assignment name: pointer_address
-Expected files: pointer_address.c
-Allowed functions: printf
---------------------------------------------------------------------------------
-Write a program to declare a pointer and print the address of a variable.
