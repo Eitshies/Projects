@@ -1,8 +1,9 @@
-Assignment name: two_sum_solver
-Expected files: two_sum_solver.c
-Allowed functions: malloc, free, printf, return, sizeof
+Assignment name: Two Sum
+Expected files: two_sum.c
 --------------------------------------------------------------------------------
-Return the indices of two numbers in the given array that add up to the target. Assume each input has exactly one solution, without using the same element twice. The answer's order doesn't matter.
+Return the indices of two numbers in the given array that add up to the target.
+Assume each input has exactly one solution, without using the same element twice.
+The answer's order doesn't matter.
 
 Examples:
 
@@ -12,7 +13,7 @@ Output: [0,1]
 2. Input: nums = [3,2,4], target = 6
 Output: [1,2]
 
-1. Input: nums = [3,3], target = 6
+3. Input: nums = [3,3], target = 6
 Output: [0,1]
 
 Constraints:
